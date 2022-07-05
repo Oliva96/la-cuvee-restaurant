@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
 
-function App() {
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "./App.css";
+import {
+  About,
+  BackToTop,
+  Events,
+  FindUs,
+  Footer,
+  Gallery,
+  Header,
+  Hero,
+  Menu,
+  TopBar,
+  WhyUs,
+} from "./components";
+
+const App = () => {
+  const [onTop, setOnTop] = useState(true);
+
+  const listenScrollEvent = (event) => {
+    if (window.scrollY < 73) {
+      return setOnTop(true);
+    }
+    return setOnTop(false);
+  };
+
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", listenScrollEvent);
+    return () => window.removeEventListener("scroll", listenScrollEvent);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <TopBar onTop={onTop} />
+      <Header onTop={onTop} />
+      <Hero />
+      <About />
+      <WhyUs />
+      <Menu />
+      <Events />
+      <Gallery />
+      <FindUs />
+      <Footer />
+      <BackToTop onTop={onTop} />
+      {/* <div id="preloader"></div> */}
     </div>
   );
-}
+};
 
 export default App;
